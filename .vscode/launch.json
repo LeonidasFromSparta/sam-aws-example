@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "build accuracy",
+            "type": "node",
+            "request": "attach",
+            "localRoot": "${workspaceRoot}/",
+            "remoteRoot": "/var/task",
+            "preLaunchTask": "build accuracy task",
+            "sourceMaps": true,
+            "smartStep": true,
+            "continueOnAttach": true
+        }
+    ]
+}

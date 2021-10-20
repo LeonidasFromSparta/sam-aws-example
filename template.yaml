@@ -1,0 +1,44 @@
+Transform: 'AWS::Serverless-2016-10-31'
+
+Description: >-
+  swissknife2.0
+
+Globals:
+  Function:
+    Runtime: nodejs14.x
+    MemorySize: 128
+
+Resources:
+  MyLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: dist/go-app-accuracy.zip
+
+  MySqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 900
+      MaximumMessageSize: 1024
+
+  BuildAccuracy:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dist/build-accuracy.handler
+      CodeUri: dist/build-accuracy.zip
+      Timeout: 840
+      MemorySize: 2048
+      Layers:
+        - !Ref MyLayer
+      Events:
+        MySQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt MySqsQueue.Arn
+            BatchSize: 1
+      Policies:
+      - SQSPollerPolicy:
+          QueueName:
+            !GetAtt MySqsQueue.QueueName
+      - S3ReadPolicy:
+          BucketName:
+            "leonid-test"

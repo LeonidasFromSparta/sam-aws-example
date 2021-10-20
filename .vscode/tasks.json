@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build accuracy task",
+            "type": "shell",
+            "isBackground": true,
+            "command": "make clean build_accuracy go_app_accuracy STAGE=local && sam local invoke BuildAccuracy --event events/build-accuracy.json --profile default --skip-pull-image --debug-port 9229"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "name": "aws",
+    "description": "delete-test-01-description",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "hot": "make build_all STAGE=local && sam local start-api --warm-containers eager --skip-pull-image",
+        "build:dev": "make build_all STAGE=dev",
+        "build:prod": "make build_all STAGE=prod",
+        "deploy:dev": "sam deploy --stack-name swissknife2dev --s3-bucket leonid-test --profile default --capabilities CAPABILITY_IAM",
+        "deploy:prod": "sam deploy --stack-name swissknife2prod --s3-bucket leonid-test --profile default --capabilities CAPABILITY_IAM",
+        "publish:dev": "npm run build:dev && npm run deploy:dev",
+        "publish:prod": "npm run build:prod && npm run deploy:prod"
+    },
+    "dependencies": {
+        "ajv": "^8.6.3",
+        "aws-sdk": "^2.988.0",
+        "pg": "^8.7.1"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.15.4",
+        "@babel/core": "^7.15.5",
+        "@babel/preset-env": "^7.15.6",
+        "babel-loader": "^8.2.2",
+        "dotenv-webpack": "^7.0.3",
+        "webpack": "^5.52.1",
+        "webpack-cli": "^4.8.0"
+    }
+}
